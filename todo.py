@@ -130,7 +130,7 @@ def get_todo(todo_id):
         return jsonify({})
 
 
-@app.route('/todo/<todo_id>', methods=['POST'])
+@app.route('/todo/<todo_id>', methods=['PUT'])
 @apify
 def update_todo(todo_id):
     c = g.db.cursor()

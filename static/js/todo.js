@@ -4,7 +4,10 @@ function TodoCtrl($scope, $resource) {
     $scope.priorities = ['high', 'normal', 'low'];
     $scope.todos = [];
 
-    var Todo = $resource('/todo/:todoId', {'todoId': '@id'});
+    var Todo = $resource(
+        '/todo/:todoId', {'todoId': '@id'},
+        {update: {method: 'PUT'}}
+    );
 
     var getMaxTodoId = function(todos){
         var max_id = -1;
@@ -76,7 +79,7 @@ function TodoCtrl($scope, $resource) {
             }
             var todo = $scope.todos[index];
             todo = new Todo(todo);
-            todo.$save();
+            todo.$update();
             $scope.todos[$scope.todoEditIndex] = todo;
         }
     };
