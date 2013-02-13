@@ -40,7 +40,6 @@ def authenticate(username, password):
     c = g.db.cursor()
     c.execute(q, (username, hashlib.sha1(password).hexdigest()))
     row = c.fetchone()
-    print username, password, hashlib.sha1(password).hexdigest(), row
     return row[0] if row else -1
 
 
@@ -49,7 +48,6 @@ def authenticate_api(api_key):
     c = g.db.cursor()
     c.execute(q, (api_key,))
     row = c.fetchone()
-    print row
     return row[0] if row else -1
 
 
@@ -87,7 +85,7 @@ def get_todos(user_id):
 
 
 @app.route('/')
-def todos():
+def index():
     context = {'logged_in': session.get('logged_in', False), 'todos': []}
     if context['logged_in']:
         context['username'] = get_user(session['user_id'])['username']
@@ -96,7 +94,7 @@ def todos():
 
 @app.route('/todo', methods=['GET'])
 @apify
-def list_todos():
+def todos():
     todos = get_todos(session.get('user_id', -1))
     return Response(json.dumps(todos), mimetype='application/json')
 
@@ -169,7 +167,7 @@ def login():
         session['logged_in'] = True
         session['user_id'] = user_id
 
-        # Loading todos
+        # Saving offline todos
         fields = ['text', 'done', 'priority']
         q = "INSERT INTO todo(app_user, %s) VALUES (%d, %s)" % (
             ", ".join(fields), user_id, ", ".join('?' for _ in fields)
@@ -189,6 +187,7 @@ def logout():
     session.pop('logged_in', None)
     session.pop('user_id', None)
     return redirect(url_for('todos'))
+
 
 if __name__ == '__main__':
     app.run()

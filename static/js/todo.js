@@ -47,12 +47,8 @@ function TodoCtrl($scope, $resource) {
 
     $scope.removeTodo = function(todo_id) {
         var index = $scope.findTodo(todo_id);
-        if(index >= 0){
-            if($scope.online){
-                $scope.todos[index].$remove();
-            }
-            $scope.todos.splice(index, 1);
-        }
+        if($scope.online) $scope.todos[index].$remove();
+        $scope.todos.splice(index, 1);
     };
 
     $scope.setCurrentTodo = function(todo_id){
@@ -62,12 +58,7 @@ function TodoCtrl($scope, $resource) {
 
     $scope.updateTodo = function(todo_id){
         if($scope.online){
-            if(todo_id){
-                var index = $scope.findTodo(todo_id);
-            }
-            else{
-                var index = $scope.todoEditIndex;
-            }
+            var index = todo_id ? $scope.findTodo(todo_id) : $scope.todoEditIndex;
             $scope.todos[index].$update();
         }
     };
