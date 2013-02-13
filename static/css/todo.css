@@ -1,0 +1,38 @@
+/* Layout */
+body {
+    padding-top: 20px;
+    padding-bottom: 40px;
+}
+.container-narrow {
+    margin: 0 auto;
+    max-width: 700px;
+}
+.container-narrow > hr {
+    margin: 30px 0;
+}
+.footer p {
+    text-align: center;
+}
+/* Todos */
+.done-true{
+    color: #888;
+    text-decoration: line-through;
+}
+td.todo-actions{
+    text-align: right;
+}
+td.todo-actions a{
+    text-decoration: none;
+}
+.priority-low{
+    background-color: #3a87ad;
+}
+.priority-high{
+    background-color: #b94a48;
+}
+/* Phones */
+@media (max-width: 767px) {
+    .row-fluid .controls-row [class*="span"] + [class*="span"]{
+        margin-left: 0;
+    }
+}
