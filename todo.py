@@ -7,12 +7,8 @@ from functools import wraps
 
 from flask import Flask, render_template, g, request, session, flash, redirect, url_for, jsonify
 
-DATABASE = 'todo.db'
-DEBUG = True
-SECRET_KEY = 'development-key'
-
 app = Flask(__name__)
-app.config.from_object(__name__)
+app.config.from_object('config')
 
 
 def connect_db():
