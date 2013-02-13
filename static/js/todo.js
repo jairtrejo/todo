@@ -10,17 +10,7 @@ function TodoCtrl($scope, $resource) {
 
     $scope.todos = Todo.query();
 
-    var getMaxTodoId = function(todos){
-        var max_id = -1;
-        var todo_id = -1;
-        for(var i=0;i<todos.length;++i){
-            todo_id = todos[i].id;
-            if (todo_id > max_id){
-                max_id = todo_id;
-            }
-        }
-        return max_id;
-    }
+    $scope.max_id = 0;
 
     $scope.addTodo = function() {
         if($scope.todoText){
@@ -34,7 +24,8 @@ function TodoCtrl($scope, $resource) {
                 todo.$save();
             }
             else{
-                var todo_id = getMaxTodoId($scope.todos) + 1;
+                var todo_id = $scope.max_id + 1;
+                $scope.max_id = todo_id;
                 angular.extend(todo, {'id': todo_id});
             }
 
