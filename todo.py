@@ -5,7 +5,10 @@ import hashlib
 import json
 from functools import wraps
 
-from flask import Flask, render_template, g, request, session, flash, redirect, url_for, jsonify
+from flask import (
+    Flask, render_template, g, request, session,
+    flash, redirect, url_for, jsonify, Response
+)
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -88,14 +91,14 @@ def todos():
     context = {'logged_in': session.get('logged_in', False), 'todos': []}
     if context['logged_in']:
         context['username'] = get_user(session['user_id'])['username']
-        context['todos'] = json.dumps(get_todos(session['user_id']))
     return render_template('index.html', **context)
 
 
 @app.route('/todo', methods=['GET'])
 @apify
 def list_todos():
-    return jsonify(todos=get_todos(session.get('user_id', -1)))
+    todos = get_todos(session.get('user_id', -1))
+    return Response(json.dumps(todos), mimetype='application/json')
 
 
 @app.route('/todo', methods=['POST'])

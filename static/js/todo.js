@@ -2,12 +2,13 @@ angular.module('Todo', ['ngResource']);
 
 function TodoCtrl($scope, $resource) {
     $scope.priorities = ['high', 'normal', 'low'];
-    $scope.todos = [];
 
     var Todo = $resource(
         '/todo/:todoId', {'todoId': '@id'},
         {update: {method: 'PUT'}}
     );
+
+    $scope.todos = Todo.query();
 
     var getMaxTodoId = function(todos){
         var max_id = -1;
@@ -57,8 +58,7 @@ function TodoCtrl($scope, $resource) {
         var index = $scope.findTodo(todo_id);
         if(index >= 0){
             if($scope.online){
-                var todo = new Todo($scope.todos[index]);
-                todo.$remove();
+                $scope.todos[index].$remove();
             }
             $scope.todos.splice(index, 1);
         }
@@ -77,10 +77,7 @@ function TodoCtrl($scope, $resource) {
             else{
                 var index = $scope.todoEditIndex;
             }
-            var todo = $scope.todos[index];
-            todo = new Todo(todo);
-            todo.$update();
-            $scope.todos[$scope.todoEditIndex] = todo;
+            $scope.todos[index].$update();
         }
     };
 

@@ -44,7 +44,7 @@
       <div class="alert alert-error">{{ message }}</div>
       {% endfor %}
 
-      <div ng-controller="TodoCtrl" ng-init="todos = {{ todos }}">
+      <div ng-controller="TodoCtrl">
           {% raw %}
           <form class="form row-fluid" ng-submit="addTodo()">
               <div class="controls controls-row">
