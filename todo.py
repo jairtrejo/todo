@@ -179,14 +179,14 @@ def login():
     else:
         flash(u"Wrong user or password")
 
-    return redirect(url_for('todos'))
+    return redirect(url_for('index'))
 
 
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
     session.pop('user_id', None)
-    return redirect(url_for('todos'))
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
